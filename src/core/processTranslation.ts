@@ -1,5 +1,5 @@
-import { translateChunk } from "@/services/openai/openai.service";
-import { ProcessTranslationRequest, ProcessTranslationResult } from '@/types';
+import { openAITranslateChunk } from "@/services/openai/openai.service";
+import { ProcessTranslationRequest, ProcessTranslationResult, TranslateChunkFunction } from '@/types';
 import fs from "fs-extra";
 import path from "path";
 
@@ -12,7 +12,8 @@ export async function processTranslation({
   model,
   context,
   OPENAI_API_KEY,
-}: ProcessTranslationRequest): Promise<ProcessTranslationResult> {
+  translateChunk, // optional: allows custom AI function
+}: ProcessTranslationRequest & { translateChunk?: TranslateChunkFunction }): Promise<ProcessTranslationResult> {
   let aiRequests = 0;
   let keysAdded = 0;
   let keysRemoved = 0;
@@ -24,6 +25,7 @@ export async function processTranslation({
     targetJSON = await fs.readJson(targetFilePath);
   }
 
+  // Remove keys that are no longer in the base
   Object.keys(targetJSON).forEach((key) => {
     if (!(key in baseJSON)) {
       delete targetJSON[key];
@@ -42,7 +44,10 @@ export async function processTranslation({
       chunkObject[key] = baseJSON[key];
     });
 
-    const translated = await translateChunk({
+    // Use the user-provided translateChunk function if available
+    const translateFn = translateChunk ?? openAITranslateChunk;
+
+    const translated = await translateFn({
       model,
       texts: chunkObject,
       from: baseLocale,
@@ -54,16 +59,16 @@ export async function processTranslation({
     aiRequests++;
     keysAdded += chunkKeys.length;
 
-    // atualiza target diretamente
+    // Update target JSON
     Object.assign(targetJSON, translated);
   }
 
-  // fallback para qualquer key que esteja faltando
+  // fallback for any missing keys
   Object.keys(baseJSON).forEach((key) => {
     if (!(key in targetJSON)) targetJSON[key] = baseJSON[key];
   });
 
-  // **Garantir a ordem do baseJSON**
+  // maintain baseJSON order
   const orderedJSON: Record<string, string> = {};
   Object.keys(baseJSON).forEach((key) => {
     orderedJSON[key] = targetJSON[key];

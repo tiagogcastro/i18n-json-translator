@@ -1,12 +1,11 @@
 {
-  "name": "ai-i18n-translate",
-  "version": "1.0.0",
+  "name": "@tiagogcastro/ai-i18n-translate",
+  "version": "1.0.2",
   "description": "Uma biblioteca TypeScript para traduzir arquivos JSON de localização de forma automatizada, mantendo a estrutura e a ordem das chaves do idioma base usando IA.",
-  "author": {
-    "name": "Tiago Gonçalves de Castro",
-    "email": "tiaguin180@gmail.com",
-    "url": "https://github.com/tiagogcastro"
-  },
+  "author": "Tiago Gonçalves de Castro <tiaguin180@gmail.com> (https://github.com/tiagogcastro)",
+  "files": [
+    "dist"
+  ],
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,7 +21,21 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.0.0",
+    "tsc": "^2.0.4",
     "tsc-alias": "^1.8.16",
-    "typescript": "^5.3.0"
-  }
+    "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiagogcastro/ai-i18n-translate.git"
+  },
+  "keywords": [
+    "ai",
+    "translate"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tiagogcastro/ai-i18n-translate/issues"
+  },
+  "homepage": "https://github.com/tiagogcastro/ai-i18n-translate#readme"
 }

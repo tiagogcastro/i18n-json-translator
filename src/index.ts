@@ -1,6 +1,3 @@
-import "./config/dotenv";
-import { runTranslation } from "./core/runTranslation";
-
-export {
-  runTranslation
-};
+export { runTranslation } from './core/runTranslation';
+export { openAITranslateChunk } from './services/openai/openai.service';
+export type { TranslateChunkFunction, TranslateChunkRequest } from './types';

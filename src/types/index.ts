@@ -11,7 +11,7 @@ export interface TranslateOptions {
   chunkSize?: number;
   context?: string;
   reportOptions?: ReportOptions;
-  OPENAI_API_KEY: string;
+  OPENAI_API_KEY?: string;
 }
 
 export type FlatJSON = Record<string, string>;
@@ -67,7 +67,7 @@ export interface TranslateChunkRequest {
   from: string;
   to: string;
   context?: string;
-  OPENAI_API_KEY: string;
+  OPENAI_API_KEY?: string;
 }
 
 export interface ProcessTranslationRequest {
@@ -78,7 +78,7 @@ export interface ProcessTranslationRequest {
   chunkSize: number;
   model: string;
   context?: string;
-  OPENAI_API_KEY: string;
+  OPENAI_API_KEY?: string;
 }
 
 export interface ProcessTranslationResult {
@@ -89,3 +89,5 @@ export interface ProcessTranslationResult {
   baseTotal: number;
   finalTotal: number;
 }
+
+export type TranslateChunkFunction = (req: TranslateChunkRequest) => Promise<Record<string, string>>;

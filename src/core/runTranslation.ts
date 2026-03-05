@@ -1,6 +1,6 @@
 import { processTranslation } from '@/core/processTranslation';
 import { generateSummaryMarkdown, saveSummary } from "@/services/report.service";
-import { ProcessTranslationResult, TranslateOptions } from "@/types";
+import { ProcessTranslationResult, TranslateChunkFunction, TranslateOptions } from "@/types";
 import { getAllJsonFilesFromLocale } from "@/utils/filesystem.utils";
 import fs from "fs-extra";
 import path from "path";
@@ -14,7 +14,8 @@ export async function runTranslation({
   context,
   reportOptions,
   OPENAI_API_KEY,
-}: TranslateOptions) {
+  translateChunk,
+}: TranslateOptions & { translateChunk?: TranslateChunkFunction }) {
   const startedAt = new Date();
 
   let totalAIRequests = 0;
@@ -86,13 +87,14 @@ export async function runTranslation({
           model,
           context,
           OPENAI_API_KEY,
+          translateChunk,
         });
 
         handleResult(result);
 
         const statusText = !result.modified
-          ? "Já sincronizado"
-          : `Atualizado (+${result.keysAdded}${result.keysRemoved ? ` / -${result.keysRemoved}` : ""})`;
+          ? "Already synced"
+          : `Updated (+${result.keysAdded}${result.keysRemoved ? ` / -${result.keysRemoved}` : ""})`;
 
         console.log(`- **${locale}:** ${locale}/${relativePath} - ${statusText} total ${result.finalTotal}/${result.baseTotal}`);
 
@@ -131,13 +133,14 @@ export async function runTranslation({
         model,
         context,
         OPENAI_API_KEY,
+        translateChunk,
       });
 
       handleResult(result);
 
       const statusText = !result.modified
-        ? "Já sincronizado"
-        : `Atualizado (+${result.keysAdded}${result.keysRemoved ? ` / -${result.keysRemoved}` : ""})`;
+        ? "Already synced"
+        : `Updated (+${result.keysAdded}${result.keysRemoved ? ` / -${result.keysRemoved}` : ""})`;
 
       console.log(`- **${locale}:** ${locale}.json - ${statusText} total ${result.finalTotal}/${result.baseTotal}`);
 
