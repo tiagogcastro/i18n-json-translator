@@ -2,6 +2,11 @@
   "name": "i18n-json-translation",
   "version": "1.0.0",
   "description": "Uma biblioteca TypeScript para traduzir arquivos JSON de localização de forma automatizada, mantendo a estrutura e a ordem das chaves do idioma base usando IA.",
+  "author": {
+    "name": "Tiago Gonçalves de Castro",
+    "email": "tiaguin180@gmail.com",
+    "url": "https://github.com/tiagogcastro"
+  },
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
