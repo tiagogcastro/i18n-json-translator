@@ -92,3 +92,15 @@ export interface ProcessTranslationResult {
 }
 
 export type TranslateChunkFunction = (req: TranslateChunkRequest) => Promise<Record<string, string>>;
+
+export type TranslationJSON = {
+  [key: string]: string | TranslationJSON;
+};
+
+export interface BuildDefaultSystemPromptRequest {
+  from: string;
+  to: string;
+  texts: TranslationJSON;
+  context?: string;
+  useTextsInPrompt: boolean;
+}

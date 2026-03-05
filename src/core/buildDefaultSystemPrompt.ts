@@ -1,12 +1,12 @@
+import { BuildDefaultSystemPromptRequest } from '@/types';
+
 export function buildDefaultSystemPrompt({
   from,
   to,
   context,
-}: {
-  from: string;
-  to: string;
-  context?: string;
-}) {
+  texts,
+  useTextsInPrompt = false
+}: BuildDefaultSystemPromptRequest) {
   return `
 You are a professional software translation engine.
 
@@ -20,5 +20,10 @@ Rules:
 - Maintain JSON keys exactly as received.
 - Return ONLY valid JSON.
 - Respect regional language variants.
+
+${useTextsInPrompt && (
+      `JSON to translate:
+${JSON.stringify(texts, null, 2)}
+`)}
 `;
 }

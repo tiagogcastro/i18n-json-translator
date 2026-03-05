@@ -35,12 +35,6 @@ export async function processTranslation({
 
   const missingKeys = Object.keys(baseJSON).filter((key) => !(key in targetJSON));
 
-  const systemPrompt = buildDefaultSystemPrompt({
-    from: baseLocale,
-    to: targetLocale,
-    context,
-  });
-
   for (let i = 0; i < missingKeys.length; i += chunkSize) {
     const chunkKeys = missingKeys.slice(i, i + chunkSize);
     if (!chunkKeys.length) continue;
@@ -48,6 +42,14 @@ export async function processTranslation({
     const chunkObject: Record<string, string> = {};
     chunkKeys.forEach((key) => {
       chunkObject[key] = baseJSON[key];
+    });
+
+    const systemPrompt = buildDefaultSystemPrompt({
+      from: baseLocale,
+      to: targetLocale,
+      context,
+      texts: chunkObject,
+      useTextsInPrompt: !!translateChunk
     });
 
     const translateFn = translateChunk ?? openAITranslateChunk;
