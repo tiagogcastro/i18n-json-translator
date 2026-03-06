@@ -36,9 +36,9 @@ locales/{locale}.json                 -> locales/en.json
 ## Installation
 
 ```bash
-npm install ai-i18n-translate
+npm install @tiagogcastro/ai-i18n-translate
 # or
-yarn add ai-i18n-translate
+yarn add @tiagogcastro/ai-i18n-translate
 ````
 
 ---
@@ -48,7 +48,7 @@ yarn add ai-i18n-translate
 ### Basic Example with OpenAI
 
 ```ts
-import { runTranslation } from 'ai-i18n-translate';
+import { runTranslation } from '@tiagogcastro/ai-i18n-translate';
 import path from 'path';
 
 (async () => {
@@ -118,7 +118,7 @@ Instructions:
 Example generic structure:
 
 ```ts
-import { TranslateChunkFunction, TranslateChunkRequest, runTranslation } from 'ai-i18n-translate';
+import { TranslateChunkFunction, TranslateChunkRequest, runTranslation } from '@tiagogcastro/ai-i18n-translate';
 
 const translateChunkWithOtherAI: TranslateChunkFunction = async ({ texts, from, to, context, systemPrompt }: TranslateChunkRequest) => {
   // Call your AI provider here (Claude, Gemini, AWS Bedrock, etc.)
